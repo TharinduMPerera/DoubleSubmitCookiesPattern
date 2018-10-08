@@ -3,12 +3,15 @@
 
 ## Install node modules
 
+```bash
 npm install
+```
 
 ## Run
 
+```bash
 npm start
-
+```
 
 Demo App Login:- Username:admin, Password:admin
 
