@@ -32,12 +32,27 @@ router.get('/home', function (req, res, next) {
 /* POST login. */
 router.post('/login', function (req, res, next) {
     if (req.body.username == "admin" && req.body.password == "admin") {
-        res.cookie('csrf_token', generateCSRFToken());
+        res.cookie('csrf_token', generateCSRFToken(), { httpOnly: false });
         res.cookie('username', req.body.username);
         res.redirect('home');
     } else {
         res.render('../public/views/login', {message: 'Invalid username or password!'});
     }
 });
+
+/* POST message. */
+router.post('/message', function (req, res, next) {
+    var message = '';
+    var className = '';
+    if (/* validate req.cookies.sessionID && */ req.body.csrf == req.cookies.csrf_token) {
+        message = 'CSRF token is valid.';
+        className = 'message-success';
+    } else {
+        message = 'Invalid CSRF token!';
+        className = 'message-fail';
+    }
+    res.render('../public/views/response', {message: message, className: className});
+});
+
 
 module.exports = router;
